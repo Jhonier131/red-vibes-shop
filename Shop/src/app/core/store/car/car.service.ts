@@ -16,7 +16,7 @@ export class CarService {
   public addNewItem(newItem: CarItem) {
     this.store.dispatch(
       carActions.addItem({
-        newItem: {...newItem, quantity: 1}
+        newItem: {...newItem, quantity: newItem.quantity || 1}
       }));
   }
   public incrementItem(item: CarItem) {

@@ -54,11 +54,11 @@
         <div *ngFor="let item of allClothes">
             <div class="container_card">
                 <figure>
-                    <div class="list_size" [ngClass]="{'souldOut_image': !item.size.length}">
-                        <p *ngIf="item.size.length && item.offSale">-{{item.offSale}}%</p>
-                        <img src="{{item.image}}" alt="Imagen del producto." />
-                        <div class="tallas-container" *ngIf="item.size.length; else souldOut">
-                            <button *ngFor="let itemSize of item.size" (click)="seleccionarTalla(item, itemSize)" [class.selected]="item?.sizeSelected == itemSize">
+                    <div class="list_size" [ngClass]="{'souldOut_image': !hasAnyStock(item)}">
+                        <p *ngIf="hasAnyStock(item) && item.offSale">-{{item.offSale}}%</p>
+                        <img src="{{item.image[0]}}" alt="Imagen del producto." (click)="openDetail(item._id)" />
+                        <div class="tallas-container" *ngIf="hasAnyStock(item); else souldOut">
+                            <button  *ngFor="let itemSize of getAvailableSizes(item)" (click)="seleccionarTalla(item, itemSize)" [class.selected]="item?.sizeSelected == itemSize">
                                 {{ itemSize }}
                             </button>
                         </div>
@@ -70,14 +70,14 @@
                 <div class="card_body">
                     <h1>{{item.name}}</h1>
                     <div class="price">
-                        <p *ngIf="item.size.length && item.offSale">${{item.price}}</p>
+                        <p *ngIf="hasAnyStock(item) && item.offSale">${{item.price}}</p>
                         <h2>${{calcPrice(item.price, item.offSale)}}</h2> 
                     </div>
                     <div class="btn-container">
-                        <button class="btn-add" type="button" *ngIf="item.size.length" (click)="addCarItem(item)">
+                        <button class="btn-add" type="button" *ngIf="hasAnyStock(item)" (click)="addCarItem(item)">
                             Agregar
                         </button>
-                        <button class="btn-detail" type="button" [ngStyle]="!item.size.length ? { width: '100%' } : null" (click)="openDetail(item._id)">
+                        <button class="btn-detail" type="button" [ngStyle]="!hasAnyStock(item) ? { width: '100%' } : null" (click)="openDetail(item._id)">
                             <img src="../../../../../assets/icons/eye-fill.svg" alt="Detail">
                         </button> 
                     </div>

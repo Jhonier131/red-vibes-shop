@@ -6,6 +6,7 @@ import { SubSink } from 'subsink';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { constantes } from 'src/app/core/data/constantes';
 import { Router } from '@angular/router';
+import { CarItem } from 'src/app/core/data/models/car-model';
 
 @Component({
   selector: 'app-womens',
@@ -17,13 +18,14 @@ export class WomensComponent implements OnInit {
   public allClothes: any = [];
   public allFilters: any = [];
   public headFilters: any = [];
+  public availableSizes: string[] = [];
 
   clotheSelected: any = null;
   sizes: string[] = ['S', 'M', 'L', 'XL'];
   tallaSeleccionada: string | null = null;
   filtrar: boolean = false;
   filterForm!: FormGroup;
-  filterMode: string = 'women';
+  filterMode: string = '';
   public titleModdule: string = '';
 
   constructor(
@@ -52,11 +54,12 @@ export class WomensComponent implements OnInit {
   }
 
   getClothes() {
-    const url = window.location.pathname.includes('/shop/women') ? 'mujer' : 'hombre';
+    const url = window.location.pathname.includes('/shop/women') ? constantes.FILTER_WOMEN : constantes.FILTER_MEN; 
     this.subs.add(this.shopServices.getAllClothes(url).subscribe(respuesta => {
       this.allClothes = respuesta.payload;
+      console.log(this.allClothes);
       this.loaderService.hide();
-      if(url === 'mujer') {
+      if(url === constantes.FILTER_WOMEN) {
         this.filterMode = constantes.FILTER_WOMEN;
         this.titleModdule = 'Ropa para mujer';
       } else {
@@ -67,6 +70,17 @@ export class WomensComponent implements OnInit {
     }));
   }
 
+  hasAnyStock(product: CarItem): boolean {
+    return Object.values(product.stock || {}).some((qty: any) => qty > 0);
+  }
+
+  getAvailableSizes(item: any): string[] {
+    return Object.entries(item.stock || {})
+      .filter(([size, qty]: any) => qty > 0)
+      .map(([size]) => size);
+  }
+
+
   getFilters() {
     this.subs.add(this.shopServices.getFilters().subscribe(respuesta => {
       this.allFilters = respuesta.payload;
@@ -74,9 +88,10 @@ export class WomensComponent implements OnInit {
   }
 
   changeFilter() {
+    console.log(this.allFilters);
     this.headFilters = this.filterMode === constantes.FILTER_WOMEN ?
-      this.allFilters.filter((item: any) => item.gender !== "M"):
-      this.allFilters.filter((item: any) => item.gender !== "F");
+      this.allFilters.filter((item: CarItem) => item.gender !== "M"):
+      this.allFilters.filter((item: CarItem) => item.gender !== "F");
   }
 
   onChangeCategory(event: any) {
@@ -152,6 +167,7 @@ export class WomensComponent implements OnInit {
   }
 
   getClothesFiltered(filters: any) {
+    console.log(this.filterMode);
     this.subs.add(this.shopServices.aplyFilters(filters, this.filterMode).subscribe(resp => {
       this.allClothes = resp.payload;
       this.loaderService.hide();

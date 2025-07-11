@@ -62,9 +62,9 @@ const pay = async (req, res) => {
             <input name="tax"             type="hidden"  value="0"  >
             <input name="currency"        type="hidden"  value="COP" >
             <input name="signature"       type="hidden"  value="${signature}"  >
-            <input name="test"            type="hidden"  value="1" >
+            <input name="test"            type="hidden"  value="${test}" >
             <input name="buyerEmail"      type="hidden"  value="${email}" >
-            <input name="confirmationUrl" type="hidden"  value="https://8780-161-18-228-190.ngrok-free.app/r2/confirmation" >
+            <input name="confirmationUrl" type="hidden"  value="https://dc0cb87829ea.ngrok-free.app/r2/confirmation" >
             <input name="responseUrl"     type="hidden"  value="http://localhost:4200/shop/checkout" >
             input name="Submit"           type="submit"  value="Send" >
           </form>

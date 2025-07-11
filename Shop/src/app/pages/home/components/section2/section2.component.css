@@ -19,7 +19,7 @@
 }
 
 .womens {
-    background: url('../../../../../assets/img/women-section2.jpeg') no-repeat center 0;
+    background: url('../../../../../assets/img/women-section2.png') no-repeat center 0;
     background-size: cover;
     height: 100vh;
     filter: brightness(0.7);
@@ -49,7 +49,7 @@
 }
 
 .sexshop {
-    background: url('../../../../../assets/img/Hombrehoodwave.jpeg') no-repeat center -5rem;
+    background: url('../../../../../assets/img/men-section1.png') no-repeat center -5rem;
     background-size: cover;
     height: 100vh;
     filter: brightness(0.7);

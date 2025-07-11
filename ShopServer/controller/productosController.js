@@ -10,8 +10,8 @@ const getAllProducts = async (req, res) => {
 
     console.log(`getAllProducts: ${genderParam}`);
 
-    if (!['hombre', 'mujer', 'unisex'].includes(genderParam)) {
-      return res.status(400).json({ message: "Género inválido. Usa 'hombre', 'mujer' o 'unisex'." });
+    if (!['women', 'men'].includes(genderParam)) {
+      return res.status(400).json({ message: "Género inválido. Usa 'women', 'men'" });
     }
 
     const filteredProducts = await allProducts.find({ gender: genderParam });
@@ -44,37 +44,54 @@ const getItem = async (req, res) => {
 
 const aplyFilters = async (req, res) => {
   try {
-    const { order, sizes, categories } = req.body;
-    let products;
+    const { order, sizes, categories, mode } = req.body;
+    console.log(req.body);
 
+    // Construir el filtro base
+    const query = {};
+
+    // Filtrar por género
+    if (mode) {
+      query.gender = mode;
+    }
+
+    // Filtrar por categorías
     if (categories && categories.length) {
-        products = await allProducts.find({ category: { $in: categories } });
-
-        if (sizes && sizes.length) {
-            products = products.filter(product =>
-                product.size.some(size => sizes.includes(size))
-            );
-        }
-    } else if (sizes && sizes.length) {
-        products = await allProducts.find({ size: { $in: sizes } });
-    } else {
-        products = await allProducts.find();
+      query.category = { $in: categories };
     }
 
+    // Filtrar por tallas (esto requiere lógica posterior si 'size' es un array en cada producto)
+    let products = await allProducts.find(query);
+
+    if (sizes && sizes.length) {
+      products = products.filter(product =>
+        product.size.some(size => sizes.includes(size))
+      );
+    }
+
+    // Ordenar por precio
     if (Number(order)) {
-        products = products.sort((a, b) => b.price - a.price); // Mayor a menor
+      products = products.sort((a, b) => b.price - a.price); // Mayor a menor
     } else {
-        products = products.sort((a, b) => a.price - b.price); // Menor a mayor
+      products = products.sort((a, b) => a.price - b.price); // Menor a mayor
     }
 
-    console.log('Filter by:', sizes, 'Order by:', Number(order) ? 'Mayor precio' : 'Menor precio', 'Category:', categories);
+    console.log(
+      'Filter by:',
+      sizes,
+      'Order by:',
+      Number(order) ? 'Mayor precio' : 'Menor precio',
+      'Category:', categories,
+      'Mode:', mode
+    );
 
     response(res, { payload: products });
   } catch (error) {
     console.log("Error -> ", error.message);
     return res.status(500).json(error.message);
   }
-}
+};
+
 
 const getFilters = async (req, res) => {
     try {

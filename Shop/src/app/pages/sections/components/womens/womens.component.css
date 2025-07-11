@@ -28,13 +28,13 @@
 .list_size {
   position: relative;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.62);
   overflow: hidden;
 }
 
 .list_size img {
   width: 100%;
   height: auto;
+  cursor: pointer;
 }
 
 .tallas-container {

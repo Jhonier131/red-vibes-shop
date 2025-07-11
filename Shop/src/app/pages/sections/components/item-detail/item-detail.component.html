@@ -2,9 +2,14 @@
     <div class="container_detail">
         <div class="detail-image">
             <div class="selec-img">
-                <img class="img-option" *ngFor="let a of [1,1,1,1]" [src]="item.image" alt="Imagen del producto."/>
+                <img class="img-option" 
+                    *ngFor="let image of item.image" 
+                    [src]="image" 
+                    alt="Imagen del producto."
+                    (click)="selectImg(image)"
+                />
             </div>
-            <img class="principal-img" [src]="item.image" alt="Imagen del producto."/> 
+            <img class="principal-img" [src]="imgSelected" alt="Imagen del producto."/> 
         </div>
         <div class="detail-info">
             <h1>{{item.name}}</h1>
@@ -12,7 +17,7 @@
             <p><strong class="item_info">Precio: </strong>{{item.price | currency: ' '}}</p>
             <div class="item_size">
                 <p class="item_info">Talla:</p>
-                <button *ngFor="let item of sizes">{{item}}</button>
+                <button *ngFor="let size of sizes" (click)="seleccionarTalla(size)" [ngClass]="{'selectedSize': size === sizeSelected}">{{size}}</button>
             </div>
             <div class="item_cant">
                 <p class="item_info">Cantidad:</p>
@@ -20,7 +25,7 @@
                 <p class="item_info">{{quantity}}</p>
                 <p (click)="increaseQuantity(item)" class="item_increase">+</p>
             </div>
-            <button type="button" class="btn-add">Agregar al carrito</button>
+            <button type="button" class="btn-add" (click)="addToCart()">Agregar al carrito</button>
         </div>
     </div>
 </div>

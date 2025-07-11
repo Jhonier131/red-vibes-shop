@@ -171,22 +171,20 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
     if(this.checkoutForm.invalid) {
       return Object.values(this.checkoutForm.controls).forEach(constrols => constrols.markAllAsTouched());
     } else {
-      
+      let datos = {
+        ...this.checkoutForm.value,
+        amount: this.getTotal(),
+        items: this.items,
+      };
+  
+      console.log(datos);
+  
+      this.paymentsService.getPayForm(datos).subscribe((html) => {
+        const form = this.formPay.nativeElement;
+        form.innerHTML = html.payload;
+        form.querySelector('form').submit();
+      });
     }
 
-
-    // let datos = {
-    //   ...this.checkoutForm.value,
-    //   amount: this.getTotal(),
-    //   items: this.items,
-    // };
-
-    // console.log(datos);
-
-    // this.paymentsService.getPayForm(datos).subscribe((html) => {
-    //   const form = this.formPay.nativeElement;
-    //   form.innerHTML = html.payload;
-    //   form.querySelector('form').submit();
-    // });
   }
 }

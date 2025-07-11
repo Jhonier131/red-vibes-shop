@@ -6,10 +6,7 @@ const products = new Schema(
             type: String,
             require: true
         },
-        image: {
-            type: String,
-            require: true
-        },
+        image: Array, 
         price: {
             type: Number,
             require: true
@@ -25,7 +22,7 @@ const products = new Schema(
             type: Array,
             require: false
         },
-        category: Number,
+        category: Number | Array,
         gender: String,
         stock: Object
     }

@@ -11,6 +11,8 @@ db.dbInit().then(() => console.log('Conexion realizada'))
 app.use(urlencoded({extended: true}))
 app.use(json())
 app.use(cors())
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 app.use('/r1', products);
 app.use('/r2', payments);
