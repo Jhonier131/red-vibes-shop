@@ -8,7 +8,7 @@ const merchantId = "1025519";
 const accountId = "1034697";
 const apiKey = "CQqqQ9UDyzr8GvybgK8lSSD5Rt";
 const currency = "COP";
-const test = "1";
+const test = "0";
 const responseUrl = "https://redvibes.store";
 const confirmationUrl = "http://responseUrl/r2/confirmation";
 
