@@ -1,4 +1,4 @@
-const api = 'https://192.168.1.115:4200/';
+const api = 'https://api.redvibes.store/';
 
 export const environment = {
   production: true,
