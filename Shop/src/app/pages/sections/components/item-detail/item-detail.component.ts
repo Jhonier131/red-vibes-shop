@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ShopService } from '../../services/shop.service';
 import { ActivatedRoute } from '@angular/router';
 import { CarItem } from '../../../../core/data/models/car-model';
 import { CarService } from 'src/app/core/store/car/car.service';
+import { LoaderService } from 'src/app/core/services/loader.service';
 
 
 @Component({
@@ -10,7 +11,7 @@ import { CarService } from 'src/app/core/store/car/car.service';
   templateUrl: './item-detail.component.html',
   styleUrls: ['./item-detail.component.css']
 })
-export class ItemDetailComponent implements OnInit {
+export class ItemDetailComponent implements OnInit, AfterViewInit {
   
   public item!: CarItem;
   public sizes: string[] = []
@@ -21,11 +22,18 @@ export class ItemDetailComponent implements OnInit {
   constructor(
     private shopServices: ShopService,
     private route: ActivatedRoute,
-    private carStoreService: CarService
+    private carStoreService: CarService,
+    public loaderService: LoaderService,
   ) { }
 
   ngOnInit(): void {
+    this.loaderService.show();
     this.getItemDetail();
+  }
+
+  ngAfterViewInit(): void {
+    this.loaderService.hide();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   getItemDetail() {

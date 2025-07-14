@@ -4,13 +4,13 @@ const { usersSC } = require("../database/models/users.schema");
 const { transactionSC } = require("../database/models/transaction.schema");
 const { purchasedItemsSC } = require("../database/models/purchasedItems.schema");
 
-const merchantId = "508029";
-const accountId = "512321";
-const apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
+const merchantId = "1025519";
+const accountId = "1034697";
+const apiKey = "CQqqQ9UDyzr8GvybgK8lSSD5Rt";
 const currency = "COP";
 const test = "1";
-const responseUrl = "http://localhost:4200/women";
-const confirmationUrl = "http://localhost:4200";
+const responseUrl = "https://redvibes.store";
+const confirmationUrl = "http://responseUrl/r2/confirmation";
 
 // 🧮 Impuestos (simulados para pruebas)
 const tax = 3193;
@@ -53,7 +53,7 @@ const pay = async (req, res) => {
            <form id="payuForm" method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/">
             <input name="merchantId"      type="hidden"  value="${merchantId}"   >
             <input name="accountId"       type="hidden"  value="${accountId}" >
-            <input name="description"     type="hidden"  value="Pago en tienda Red Vibes"  >
+            <input name="description"     type="hidden"  value="Pago en tienda RedVibes"  >
             <input name="extra1"          type="hidden"  value="${fullName}"   >
             <input name="extra2"          type="hidden"  value="${newOrder._id}"   >
             <input name="extra3"          type="hidden"  value="${documentId}"   >
@@ -64,8 +64,8 @@ const pay = async (req, res) => {
             <input name="signature"       type="hidden"  value="${signature}"  >
             <input name="test"            type="hidden"  value="${test}" >
             <input name="buyerEmail"      type="hidden"  value="${email}" >
-            <input name="confirmationUrl" type="hidden"  value="https://dc0cb87829ea.ngrok-free.app/r2/confirmation" >
-            <input name="responseUrl"     type="hidden"  value="http://localhost:4200/shop/checkout" >
+            <input name="confirmationUrl" type="hidden"  value="${confirmationUrl}" >
+            <input name="responseUrl"     type="hidden"  value=${responseUrl} >
             input name="Submit"           type="submit"  value="Send" >
           </form>
         </body>

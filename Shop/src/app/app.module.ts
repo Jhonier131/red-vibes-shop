@@ -11,6 +11,8 @@ import { carReducer } from './core/store/car/car-reducer'
 import { localStorageSync } from 'ngrx-store-localstorage';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 const reducers: ActionReducerMap<any> = {
   contadorCarrito: counterReducer,
@@ -40,7 +42,13 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
     HttpClientModule,
     SharedModule,
     StoreModule.forRoot(reducers, {metaReducers}),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

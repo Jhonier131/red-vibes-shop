@@ -175,6 +175,7 @@ export class WomensComponent implements OnInit {
   }
 
   openDetail(id: string) {
+    this.loaderService.show();
     this.router.navigate(['/shop/detail/' + id]);
   }
 }
