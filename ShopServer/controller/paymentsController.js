@@ -10,7 +10,7 @@ const apiKey = "CQqqQ9UDyzr8GvybgK8lSSD5Rt";
 const currency = "COP";
 const test = "1";
 const responseUrl = "https://redvibes.store";
-const confirmationUrl = "https://79832d93d6e0.ngrok-free.app/r2/confirmation";
+const confirmationUrl = "https://api.redvibes.store/r2/confirmation";
 
 // 🧮 Impuestos (simulados para pruebas)
 const tax = 3193;
