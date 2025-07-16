@@ -124,21 +124,21 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
   buildForm(): void {
     this.checkoutForm = this.fb.group({
       fullName: [
-        '',
+        'jhonier',
         [
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(50),
         ],
       ],
-      documentId: ['', [Validators.required, Validators.minLength(6)]],
+      documentId: ['1002835879', [Validators.required, Validators.minLength(6)]],
       email: [
-        '',
+        'redvibesstyle@gmail.com',
         [Validators.required, Validators.email],
       ],
       phone: ['3217742884', Validators.required],
-      department: ['', Validators.required],
-      city: ['', Validators.required],
+      department: ['valle del cauca', Validators.required],
+      city: ['cali', Validators.required],
       address: ['Cra 93 C Bis O', Validators.required],
       paymentMethod: ['payu', Validators.required],
     });

@@ -8,9 +8,9 @@ const merchantId = "1025519";
 const accountId = "1034697";
 const apiKey = "CQqqQ9UDyzr8GvybgK8lSSD5Rt";
 const currency = "COP";
-const test = "0";
+const test = "1";
 const responseUrl = "https://redvibes.store";
-const confirmationUrl = "http://responseUrl/r2/confirmation";
+const confirmationUrl = "https://79832d93d6e0.ngrok-free.app/r2/confirmation";
 
 // 🧮 Impuestos (simulados para pruebas)
 const tax = 3193;
@@ -22,7 +22,7 @@ const getForm = async (req, res) => {
 const pay = async (req, res) => {
   try {
     const { phone, department, city, address, amount, email, documentId, fullName, items } = req.body;
-    console.log('ENTROOOOO');
+    console.log('ENTROOOOO', req.body);
 
     if (!amount || !email || !documentId || !fullName || !items) {
       return res.status(400).send("Faltan datos");
@@ -33,6 +33,8 @@ const pay = async (req, res) => {
     const signatureRaw = `${apiKey}~${merchantId}~${paymentsReference}~${amount}~${currency}`;
     const signature = crypto.createHash("md5").update(signatureRaw).digest("hex");
 
+    console.log(signature);
+
     const newOrder = new purchasedItemsSC({
       phone,
       department,
@@ -42,7 +44,6 @@ const pay = async (req, res) => {
       items,
       state: 'pendiente',
     });
-
     
     await newOrder.save();
     console.log('newOrder', newOrder._id);
@@ -50,7 +51,7 @@ const pay = async (req, res) => {
     const formHtml = `
       <html>
         <body>
-           <form id="payuForm" method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/">
+           <form id="payuForm" method="post" action="https://checkout.payulatam.com/ppp-web-gateway-payu/">
             <input name="merchantId"      type="hidden"  value="${merchantId}"   >
             <input name="accountId"       type="hidden"  value="${accountId}" >
             <input name="description"     type="hidden"  value="Pago en tienda RedVibes"  >

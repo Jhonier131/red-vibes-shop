@@ -2,7 +2,7 @@
   "name": "RedVibes",
   "short_name": "RedVibes",
   "theme_color": "#000000",
-  "background_color": "#ffffff",
+  "background_color": "#000000",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
