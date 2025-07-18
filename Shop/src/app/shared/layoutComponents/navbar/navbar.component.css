@@ -254,6 +254,12 @@ h6 {
   width: 100%;
 }
 
+.disableButton {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 .car_button {
   left: 1.5rem;
   bottom: 1rem;

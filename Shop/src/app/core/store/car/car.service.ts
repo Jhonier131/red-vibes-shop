@@ -43,4 +43,9 @@ export class CarService {
   public selectCarItems$(): Observable<[]> {
     return this.store.select(carSelector.selectCarItems);
   }
+
+  public clearCar() {
+    this.store.dispatch(carActions.clearCart());
+  }
+
 }

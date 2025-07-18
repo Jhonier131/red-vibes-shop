@@ -7,10 +7,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { constantes } from 'src/app/core/data/constantes';
 import { CountryService } from 'src/app/core/services/country.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { PaymentsService } from 'src/app/core/services/payments.service';
+import { SweetAlertService } from 'src/app/core/services/sweet-alert.service';
 import { CarService } from 'src/app/core/store/car/car.service';
 
 @Component({
@@ -26,6 +28,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
   public departments: any[] = [];
   public cities: any[] = [];
   public constantes = constantes;
+  private mensaje: string = '';
+  public shippingCost: number = 10000;
 
   constructor(
     private fb: FormBuilder,
@@ -33,13 +37,16 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
     private loaderService: LoaderService,
     private carStoreService: CarService,
     private paymentsService: PaymentsService,
-    private countryService: CountryService
+    private countryService: CountryService,
+    private sweetAlertService: SweetAlertService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.getCountries();
     this.getItemsStorage();
     this.buildForm();
+    this.validatePayment();
   }
 
   ngAfterViewInit(): void {}
@@ -124,23 +131,22 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
   buildForm(): void {
     this.checkoutForm = this.fb.group({
       fullName: [
-        'jhonier',
+        '',
         [
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(50),
         ],
       ],
-      documentId: ['1002835879', [Validators.required, Validators.minLength(6)]],
+      documentId: ['', [Validators.required, Validators.minLength(6)]],
       email: [
-        'redvibesstyle@gmail.com',
+        '',
         [Validators.required, Validators.email],
       ],
-      phone: ['3217742884', Validators.required],
-      department: ['valle del cauca', Validators.required],
-      city: ['cali', Validators.required],
-      address: ['Cra 93 C Bis O', Validators.required],
-      paymentMethod: ['payu', Validators.required],
+      phone: ['', Validators.required],
+      department: ['', Validators.required],
+      city: ['', Validators.required],
+      address: ['', Validators.required]
     });
   }
 
@@ -160,15 +166,21 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
   getTotal(): number {
     let total = 0;
     this.allCarItems.map((item: any) => {
-      if (Object.keys(item).length) total += item.price * item.quantity;
+      if (Object.keys(item).length) total += this.calcPrice(item.price, item.offSale) * item.quantity;
     });
-    return total;
+    return total + this.shippingCost;
+  }
+
+  calcPrice(price: number, offSale: number): number {
+    return price - (price * offSale / 100);
   }
 
   confirmPayment() {
-    console.log('💡 formPay está disponible:', this.checkoutForm.controls);
+    console.log('💡 formPay está disponible:', this.checkoutForm.controls,"Total" ,this.getTotal());
 
-    if(this.checkoutForm.invalid) {
+    if(this.checkoutForm.invalid || this.getTotal() <= this.shippingCost) {
+      if(!this.getTotal()) this.sweetAlertService.showWarning('Error', 'No hay productos en el carrito');
+      else this.sweetAlertService.showWarning('Error', 'Verifica los datos');
       return Object.values(this.checkoutForm.controls).forEach(constrols => constrols.markAllAsTouched());
     } else {
       let datos = {
@@ -186,5 +198,33 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
       });
     }
 
+  }
+
+  validatePayment() {
+    this.route.queryParams.subscribe(params => {
+      if(!params['transactionState']) return;
+      const transactionState = params['transactionState'];
+      const labTransactionState = params['lapTransactionState'];
+      const referenceCode = params['referenceCode'];
+
+      switch (transactionState) {
+        case '4':
+          this.mensaje = '¡Gracias! Tu pago fue aprobado. Enviamos un email a tu correo.';
+          this.carStoreService.clearCar();
+          this.sweetAlertService.showSuccess(`${labTransactionState}`, this.mensaje);
+          break;
+        case '6':
+          this.mensaje = 'El pago fue rechazado. Intenta nuevamente.';
+          break;
+        case '104':
+          this.mensaje = 'Error en la transacción.';
+          break;
+        case '7':
+          this.mensaje = 'El pago está pendiente. Te notificaremos al aprobarse.';
+          break;
+      }
+      if(transactionState !== '4') this.sweetAlertService.showError(labTransactionState, this.mensaje);
+      console.log('Estado:', transactionState, 'Ref:', referenceCode, this.mensaje);
+    });
   }
 }

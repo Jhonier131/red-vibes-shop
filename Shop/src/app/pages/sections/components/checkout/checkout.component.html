@@ -117,6 +117,7 @@
     <div class="card-container-resume">
       <h2>Resumen de la compra</h2>
       <p>Cantidad de productos: {{ allCarItems.length }}</p>
+      <p>Evio: {{shippingCost | currency: " "}}</p> 
       <p>Total: $ {{ getTotal() | currency : " " }}</p>
       <button class="Btn" type="submit">
         Pay

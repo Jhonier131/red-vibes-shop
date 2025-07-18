@@ -46,7 +46,7 @@
                             <p (click)="decreaseQuantity(item)" class="item_decrease">-</p>
                             <p>{{item.quantity}}</p>
                             <p (click)="increaseQuantity(item)" class="item_increase">+</p>
-                            <p>{{item.price | currency: ' '}}</p>
+                            <p>{{calcPrice(item.price, item.offSale) | currency: ' '}}</p>
                         </div>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
                 <h1 class="total">Total</h1>
                 <p>{{getTotal() | currency: ' '}}</p>
             </div>
-            <button class="car_button" (click)="saleProducts()">Comprar</button>
+            <button class="car_button" (click)="saleProducts()" [ngClass]="{'disableButton': !allCarItems.length}">Comprar</button>
         </div>
     </div>
 </div>

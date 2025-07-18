@@ -1,5 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import * as carAction from './car-actions';
+import * as cartAction from './car-actions';
 import { CarItem } from 'src/app/core/data/models/car-model';
 
 export interface CarState {
@@ -13,7 +13,7 @@ export const initialState: CarState = {
 
 const methodReducer = createReducer(
     initialState,
-    on(carAction.addItem, (state, { newItem }) => {
+    on(cartAction.addItem, (state, { newItem }) => {
       const myCartItems = [...state.carItems];
     
       // Buscar si ya existe el mismo producto con la misma talla seleccionada
@@ -43,7 +43,7 @@ const methodReducer = createReducer(
         carItems: [...myCartItems, newItem]
       };
     }),
-    on(carAction.increment, (state, { newItem }) => {
+    on(cartAction.increment, (state, { newItem }) => {
       console.log('Increment', newItem);
       const updatedCart = state.carItems.map(cartItem => {
         if (
@@ -64,7 +64,7 @@ const methodReducer = createReducer(
       };
     }),
     
-    on(carAction.decrement, (state, { newItem }) => {
+    on(cartAction.decrement, (state, { newItem }) => {
       console.log('tstate', state.carItems);
       const updatedCart = state.carItems
         .map(cartItem => {
@@ -96,7 +96,7 @@ const methodReducer = createReducer(
         carItems: updatedCart
       };
     }),
-    on(carAction.deleteItem, (state, { newItem }) => {
+    on(cartAction.deleteItem, (state, { newItem }) => {
       const updatedCart = state.carItems.filter(cartItem =>
         !(cartItem._id === newItem._id && cartItem.sizeSelected === newItem.sizeSelected)
       );
@@ -105,7 +105,11 @@ const methodReducer = createReducer(
         ...state,
         carItems: updatedCart
       };
-    })
+    }),
+    on(cartAction.clearCart, (state) => ({
+      ...state,
+      carItems: []
+    }))
     
 )
 

@@ -64,7 +64,7 @@ export class NavbarComponent implements OnInit {
     let total = 0;
     console.log('this.allCarItems', this.allCarItems);
     this.allCarItems.map((item: any) => {
-      if(Object.keys(item).length) total += item.price * item.quantity
+      if(Object.keys(item).length) total += this.calcPrice(item.price, item.offSale) * item.quantity
     })
     return total;
   }
@@ -93,6 +93,10 @@ export class NavbarComponent implements OnInit {
   closeCar() {
     document.body.classList.remove('no-scroll');
     this.mostrarCarrito = false;
+  }
+
+  calcPrice(price: number, offSale: number): number {
+    return price - (price * offSale / 100);
   }
 
 }

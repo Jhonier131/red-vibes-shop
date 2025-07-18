@@ -1,6 +1,4 @@
 const { response } = require("./helpers/dataResponse");
-const { productsW } = require('../database/models/productsWomens.schema.js');
-const { productsM } = require('../database/models/productsMens.schema.js');
 const { allProducts } = require('../database/models/products.schema.js'); 
 const { categoriesF } = require('../database/models/categoryFilters.js');
 
