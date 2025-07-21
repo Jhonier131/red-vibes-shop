@@ -57,7 +57,6 @@ export class WomensComponent implements OnInit {
     const url = window.location.pathname.includes('/shop/women') ? constantes.FILTER_WOMEN : constantes.FILTER_MEN; 
     this.subs.add(this.shopServices.getAllClothes(url).subscribe(respuesta => {
       this.allClothes = respuesta.payload;
-      console.log(this.allClothes);
       this.loaderService.hide();
       if(url === constantes.FILTER_WOMEN) {
         this.filterMode = constantes.FILTER_WOMEN;
@@ -88,7 +87,6 @@ export class WomensComponent implements OnInit {
   }
 
   changeFilter() {
-    console.log(this.allFilters);
     this.headFilters = this.filterMode === constantes.FILTER_WOMEN ?
       this.allFilters.filter((item: CarItem) => item.gender !== "M"):
       this.allFilters.filter((item: CarItem) => item.gender !== "F");
@@ -124,7 +122,6 @@ export class WomensComponent implements OnInit {
   }
 
   addCarItem(item:any) {
-    console.log('El item es:', item);
     if(item.sizeSelected.length) this.carStoreService.addNewItem(item);
   }
 
@@ -133,7 +130,6 @@ export class WomensComponent implements OnInit {
       if(element.id === item.id) element.sizeSelected = sizeSelected;
       return element;
     });
-    console.log(this.allClothes);
   }
 
   calcPrice(price: number, offSale: number): number {
@@ -167,7 +163,6 @@ export class WomensComponent implements OnInit {
   }
 
   getClothesFiltered(filters: any) {
-    console.log(this.filterMode);
     this.subs.add(this.shopServices.aplyFilters(filters, this.filterMode).subscribe(resp => {
       this.allClothes = resp.payload;
       this.loaderService.hide();

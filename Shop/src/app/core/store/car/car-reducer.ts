@@ -44,7 +44,6 @@ const methodReducer = createReducer(
       };
     }),
     on(cartAction.increment, (state, { newItem }) => {
-      console.log('Increment', newItem);
       const updatedCart = state.carItems.map(cartItem => {
         if (
           cartItem._id === newItem._id &&
@@ -65,7 +64,6 @@ const methodReducer = createReducer(
     }),
     
     on(cartAction.decrement, (state, { newItem }) => {
-      console.log('tstate', state.carItems);
       const updatedCart = state.carItems
         .map(cartItem => {
           // Coincide por ID y talla seleccionada

@@ -111,7 +111,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
   }
 
   onDepartmentChange(dep: any) {
-    console.log(dep.value);
     this.city?.setValue('');
     this.countryService
       .getCitiesByDepartment(dep.value)
@@ -176,7 +175,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
   }
 
   confirmPayment() {
-    console.log('💡 formPay está disponible:', this.checkoutForm.controls,"Total" ,this.getTotal());
 
     if(this.checkoutForm.invalid || this.getTotal() <= this.shippingCost) {
       if(!this.getTotal()) this.sweetAlertService.showWarning('Error', 'No hay productos en el carrito');
@@ -189,7 +187,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
         items: this.items,
       };
   
-      console.log(datos);
   
       this.paymentsService.getPayForm(datos).subscribe((html) => {
         const form = this.formPay.nativeElement;
@@ -224,7 +221,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
           break;
       }
       if(transactionState !== '4') this.sweetAlertService.showError(labTransactionState, this.mensaje);
-      console.log('Estado:', transactionState, 'Ref:', referenceCode, this.mensaje);
     });
   }
 }

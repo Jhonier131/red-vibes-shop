@@ -71,13 +71,6 @@ export class ItemDetailComponent implements OnInit, AfterViewInit {
         quantity: this.quantity
       }
     );
-    console.log(
-      {
-          ...this.item,
-          sizeSelected: this.sizeSelected,
-          quantity: this.quantity
-        }
-    );
   }
 
 }

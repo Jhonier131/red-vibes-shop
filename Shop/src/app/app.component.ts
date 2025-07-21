@@ -14,7 +14,6 @@ export class AppComponent implements OnInit {
   constructor(private loaderService: LoaderService) { }
 
   ngOnInit(): void {
-    console.log(window.location.pathname);
     this.hiddeFooter = !window.location.pathname.includes('/home'); 
   }
 }
