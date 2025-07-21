@@ -70,8 +70,8 @@
                 <div class="card_body">
                     <h1>{{item.name}}</h1>
                     <div class="price">
-                        <p *ngIf="hasAnyStock(item) && item.offSale">${{item.price}}</p>
-                        <h2>${{calcPrice(item.price, item.offSale)}}</h2> 
+                        <p *ngIf="hasAnyStock(item) && item.offSale">{{item.price | priceCop}}</p>
+                        <h2>{{calcPrice(item.price, item.offSale) | priceCop}}</h2> 
                     </div>
                     <div class="btn-container">
                         <button class="btn-add" type="button" *ngIf="hasAnyStock(item)" (click)="addCarItem(item)">

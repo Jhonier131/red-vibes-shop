@@ -16,13 +16,15 @@ import { SectionsComponent } from './containers/sections/sections.component';
 import { WomensComponent } from './components/womens/womens.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ItemDetailComponent } from './components/item-detail/item-detail.component';
+import { PriceCopPipe } from 'src/app/core/pipes/price-cop.pipe';
 
 @NgModule({
   declarations: [
     SectionsComponent,
     WomensComponent,
     CheckoutComponent,
-    ItemDetailComponent
+    ItemDetailComponent,
+    PriceCopPipe
   ],
   imports: [
     CommonModule,
