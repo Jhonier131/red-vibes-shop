@@ -28,7 +28,6 @@ import { PriceCopPipe } from 'src/app/core/pipes/price-cop.pipe';
   ],
   imports: [
     CommonModule,
-    HttpClientModule,
     SectionsRoutingModule,
     SharedModule,
 
