@@ -1,0 +1,52 @@
+# 🔥 Node modules (MUY IMPORTANTE)
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Entorno
+.env
+.env.local
+.env.*.local
+
+# Build Angular
+dist/
+.angular/
+.tmp/
+out-tsc/
+
+# Cache
+.cache/
+coverage/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Angular específico
+.angular/cache
+.angular/config
+
+# Docker (opcional)
+docker-compose.override.yml
+
+# Archivos temporales
+*.tmp
+*.temp
+
+# Certificados / claves
+*.pem
+*.key
+
+# Test
+coverage/
