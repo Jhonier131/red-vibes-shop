@@ -12,9 +12,9 @@ variables:
 # -------------------------------
 backend-build:
   stage: build
-  image: docker:20
+  image: docker:24.0.5
   services:
-    - docker:dind
+    - docker:24.0.5-dind
   script:
     # Loguear en Docker Hub
     - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
@@ -30,7 +30,7 @@ backend-build:
 # -------------------------------
 frontend-build:
   stage: build
-  image: docker:20
+  image: docker:24.0.5-dind
   services:
     - docker:dind
   script:
