@@ -130,22 +130,22 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
   buildForm(): void {
     this.checkoutForm = this.fb.group({
       fullName: [
-        'Jhonier',
+        '',
         [
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(50),
         ],
       ],
-      documentId: ['123456', [Validators.required, Validators.minLength(6)]],
+      documentId: ['', [Validators.required, Validators.minLength(6)]],
       email: [
-        'redvibesstyle@gmail.com',
+        '',
         [Validators.required, Validators.email],
       ],
-      phone: ['3217742884', Validators.required],
-      department: ['31', Validators.required],
-      city: ['1093', Validators.required],
-      address: ['cra 93', Validators.required]
+      phone: ['', Validators.required],
+      department: ['', Validators.required],
+      city: ['', Validators.required],
+      address: ['', Validators.required]
     });
   }
 
@@ -181,7 +181,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
       else this.sweetAlertService.showWarning('Error', 'Verifica los datos');
       return Object.values(this.checkoutForm.controls).forEach(constrols => constrols.markAllAsTouched());
     } else {
-      console.log(this.checkoutForm.value);
       let datos = {
         ...this.checkoutForm.value,
         amount: this.getTotal(),

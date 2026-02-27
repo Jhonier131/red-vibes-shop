@@ -1,0 +1,38 @@
+stages:
+  - build
+
+variables:
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_TLS_CERTDIR: ""
+
+# -------------------------------
+# Build Backend
+# -------------------------------
+backend-build:
+  stage: build
+  image: docker:24.0.5
+  services:
+    - docker:24.0.5-dind
+  script:
+    # Loguear en Docker Hub
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+    - docker build -f ./ShopServer/Dockerfile -t $DOCKER_USER/backend:1.1 ./ShopServer
+    - docker push $DOCKER_USER/backend:1.1
+  only:
+    - main
+
+# -------------------------------
+# Build Frontend
+# -------------------------------
+frontend-build:
+  stage: build
+  image: docker:24.0.5
+  services:
+    - docker:24.0.5-dind
+  script:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+    - docker build -f ./Shop/Dockerfile -t $DOCKER_USER/frontend:1.1 ./Shop
+    - docker push $DOCKER_USER/frontend:1.1
+  only:
+    - main
+

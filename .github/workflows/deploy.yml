@@ -1,0 +1,35 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Login a Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
+
+      - name: Build y Push Backend
+        run: |
+          docker build -f ./ShopServer/Dockerfile -t ${{ secrets.DOCKER_USER }}/backend:1.1 ./ShopServer
+          docker push ${{ secrets.DOCKER_USER }}/backend:1.1
+
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Login a Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
+
+      - name: Build y Push Frontend
+        run: |
+          docker build -f ./Shop/Dockerfile -t ${{ secrets.DOCKER_USER }}/frontend:1.1 ./Shop
+          docker push ${{ secrets.DOCKER_USER }}/frontend:1.1

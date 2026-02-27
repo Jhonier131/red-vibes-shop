@@ -13,6 +13,9 @@ const routes: Routes = [
     path: 'shop', loadChildren: () =>
       import('./pages/sections/sections.module').then(mod => mod.SectionsModule)
   },
+  {
+    path: '**', redirectTo: 'home'
+  }
 ];
 
 @NgModule({

@@ -9,8 +9,8 @@ const accountId = "1034697";
 const apiKey = "CQqqQ9UDyzr8GvybgK8lSSD5Rt";
 const currency = "COP";
 const test = "1";
-const responseUrl = "http://localhost:4200/shop/checkout";
-const confirmationUrl = "https://b2e0fe228015.ngrok-free.app/r2/confirmation";
+const responseUrl = "https://redvibes.store/shop/checkout";
+const confirmationUrl = "https://api.redvibes.store/r2/confirmation";
 
 const getForm = async (req, res) => {
   res.sendFile(path.join(__dirname, "public", "form.html"));
@@ -31,8 +31,6 @@ const pay = async (req, res) => {
     const paymentsReference = generatePaymentReference();
     const signatureRaw = `${apiKey}~${merchantId}~${paymentsReference}~${amount}~${currency}`;
     const signature = crypto.createHash("md5").update(signatureRaw).digest("hex");
-    console.log(generatePaymentReference());
-    console.log(signature);
 
     const newOrder = new purchasedItemsSC({
       phone,
@@ -62,7 +60,7 @@ const pay = async (req, res) => {
     const formHtml = `
       <html>
         <body>
-           <form id="payuForm" method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/">
+           <form id="payuForm" method="post" action="https://checkout.payulatam.com/ppp-web-gateway-payu/">
             <input name="merchantId"      type="hidden"  value="${merchantId}"   >
             <input name="accountId"       type="hidden"  value="${accountId}" >
             <input name="description"     type="hidden"  value="Pago en tienda RedVibes"  >
@@ -130,7 +128,7 @@ function generatePaymentReference() {
 
 function normalizeState(msg) {
   const estado = msg?.toUpperCase();
-  return estado === "APPROVED" ? "aprobado" : estado === "REJECTED" ? "rechazado" : estado === "PENDING" ? "pendiente" : estado;
+  return estado === "APPROVED" ? "aprobado" : estado === "REJECTED" ? "rechazado" : estado === "PENDING" ? "pendiente" : "desconocido";
 }
 
 function mapPayUTransaction(body) {
